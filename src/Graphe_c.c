@@ -1,4 +1,9 @@
 #include "Graphe_h.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+FILE *fichier;
 
 int ajouter_arc(T_Graphe *graphe, int origine, int extremite) {
   if (origine < 0 || origine > graphe->nbSommets || extremite < 0 ||
@@ -8,6 +13,8 @@ int ajouter_arc(T_Graphe *graphe, int origine, int extremite) {
   }
   graphe->matrice[origine][extremite] = 1;
   graphe->matrice[extremite][origine] = 1;
+  graphe->degres[origine] += 1;
+  graphe->degres[extremite] += 1;
   return 0;
 }
 
@@ -19,6 +26,8 @@ int supprimer_arc(T_Graphe *graphe, int origine, int extremite) {
   }
   graphe->matrice[origine][extremite] = 0;
   graphe->matrice[extremite][origine] = 0;
+  graphe->degres[origine] -= 1;
+  graphe->degres[extremite] -= 1;
   return 0;
 }
 
@@ -71,6 +80,25 @@ int lecture_ligne_colonne(char *filename) {
  * Done
  *
  */
+int ecriture_fichier_graphe(char *filename, T_Graphe graphe) {
+  if (!ouvrir(filename, "w+")) {
+    perror("Impossible d'ouvrir le fichier");
+    return -1;
+  }
+  for (int ligne = 0; ligne < graphe.nbSommets; ligne++) {
+    for (int colonne = 0; colonne < graphe.nbSommets; colonne++) {
+      fputc(graphe.matrice[ligne][colonne] + 48, fichier);
+    }
+    fputc('\n', fichier);
+  }
+  fclose(fichier);
+  return 0;
+}
+
+/**
+ * Done
+ *
+ */
 int lecture_fichier_graphe(char *filename, T_Graphe *graphe) {
   if (!ouvrir(filename, "r")) {
     perror("Impossible d'ouvrir le fichier");
@@ -79,7 +107,8 @@ int lecture_fichier_graphe(char *filename, T_Graphe *graphe) {
 
   for (int ligne = 0; ligne < graphe->nbSommets; ligne++) {
     for (int colonne = 0; colonne < graphe->nbSommets; colonne++) {
-      (graphe->matrice[ligne][colonne]) = ((int)fgetc(fichier)) - 48;
+      if (((int)fgetc(fichier) - 48) == 1)
+        ajouter_arc(graphe, ligne, colonne);
     }
     if (fgetc(fichier) != '\n') {
       perror("Decalage dans la lecture du fichier");
@@ -100,9 +129,12 @@ int init_graphe(T_Graphe *graphe, int nbS) {
     return -1;
   graphe->nbSommets = nbS;
   graphe->matrice = (int **)malloc(sizeof(int *) * nbS);
-
+  graphe->coloration = (int *)malloc(sizeof(int) * nbS);
+  graphe->degres = (int *)malloc(sizeof(int) * nbS);
   for (int ligne = 0; ligne < nbS; ligne++) {
     graphe->matrice[ligne] = (int *)malloc(sizeof(int) * nbS);
+    graphe->coloration[ligne] = INCOLORE;
+    graphe->degres[ligne] = 0;
     for (int colonne = 0; colonne < nbS; colonne++) {
       graphe->matrice[ligne][colonne] = 0;
     }
@@ -116,7 +148,6 @@ int init_graphe(T_Graphe *graphe, int nbS) {
  *
  */
 int generate_random_graphe(T_Graphe *graphe) {
-  srand(time(NULL));
   for (int ligne = 0; ligne < graphe->nbSommets; ligne++) {
     for (int colonne = 0; colonne < graphe->nbSommets; colonne++) {
       if ((rand() % 2) == 1) {

@@ -1,3 +1,6 @@
+target : test \
+		 	 	 clean
+
 CC = gcc -Wall -Werror -W
 
 test : test.o Graphe_c.o

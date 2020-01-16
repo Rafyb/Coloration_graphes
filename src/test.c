@@ -1,23 +1,10 @@
 #include "Graphe_h.h"
-
-/**
- * To Do
- *
- */
-int ecriture_fichier_graphe(char *filename, T_Graphe graphe) {
-  if (!ouvrir(filename, "w+")) {
-    perror("Impossible d'ouvrir le fichier");
-    return -1;
-  }
-  for (int ligne = 0; ligne < graphe.nbSommets; ligne++) {
-    for (int colonne = 0; colonne < graphe.nbSommets; colonne++) {
-    }
-  }
-  fclose(fichier);
-  return 0;
-}
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 int main(int argc, char **argv) {
+  srand(time(NULL));
   int nbSommets = 0;
   int isSaved = 0;
   T_Graphe graphe;
@@ -35,13 +22,11 @@ int main(int argc, char **argv) {
     scanf("%d", &nbSommets);
     init_graphe(&graphe, nbSommets);
     generate_random_graphe(&graphe);
+
     printf("Voulez-vous sauvegarder le graphe (1:Oui / 0:Non) : ");
     scanf("%d", &isSaved);
     if (isSaved == 1) {
-      char *file = "";
-      printf("Nom du fichier : ");
-      scanf("%s", file);
-      ecriture_fichier_graphe(file, graphe);
+      ecriture_fichier_graphe("graphe_write.txt", graphe);
     }
   }
 
