@@ -29,7 +29,19 @@ int main(int argc, char **argv) {
       ecriture_fichier_graphe("graphe_write.txt", graphe);
     }
   }
-
+  mettre_a_jour_degres(&graphe);
   afficher_matrice(graphe);
+
+  printf("\n");
+  for (int i = 0; i < graphe.nbSommets; i++) {
+    printf("%d ", graphe.degres[i]);
+  }
+  printf("\n");
+  int *idx_sommets_trier =
+      sommets_par_degres_decroissant(graphe.degres, graphe.nbSommets);
+
+  for (int i = 0; i < graphe.nbSommets; i++) {
+    printf("%d ", graphe.degres[idx_sommets_trier[i]]);
+  }
   return 0;
 }

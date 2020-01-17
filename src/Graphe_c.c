@@ -1,9 +1,57 @@
 #include "Graphe_h.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 FILE *fichier;
+
+/*int welsh_powell(T_Graphe *graphe) {
+  int color = 0;
+  return 0;
+}
+*/
+
+int *sommets_par_degres_decroissant(int *tab, int nbSommets) {
+  int *sommet = malloc(sizeof(int) * nbSommets);
+  int degres[nbSommets];
+  memcpy(degres, tab, sizeof(int) * nbSommets);
+
+  for (int idx = 0; idx < nbSommets; idx++) {
+    int grand = idx;
+    for (int test = 0; test < nbSommets; test++) {
+      if (degres[grand] < degres[test]) {
+        grand = test;
+      }
+    }
+
+    sommet[idx] = grand;
+    printf("le plus grand est : %d\n", degres[grand]);
+    printf("son index est %d\n", sommet[idx]);
+    degres[grand] = -1;
+  }
+  return sommet;
+}
+
+int get_degres(T_Graphe *graphe, int sommet) {
+  int degres = 0;
+  for (int ligne = 0; ligne < graphe->nbSommets; ligne++) {
+    if (ligne == sommet) {
+      degres += 2 * graphe->matrice[ligne][sommet];
+    } else {
+      degres += graphe->matrice[ligne][sommet];
+    }
+  }
+  graphe->degres[sommet] = degres;
+  return degres;
+}
+
+int mettre_a_jour_degres(T_Graphe *graphe) {
+  for (int sommet = 0; sommet < graphe->nbSommets; sommet++) {
+    get_degres(graphe, sommet);
+  }
+  return 0;
+}
 
 int ajouter_arc(T_Graphe *graphe, int origine, int extremite) {
   if (origine < 0 || origine > graphe->nbSommets || extremite < 0 ||
@@ -127,7 +175,9 @@ int lecture_fichier_graphe(char *filename, T_Graphe *graphe) {
 int init_graphe(T_Graphe *graphe, int nbS) {
   if (nbS < 1)
     return -1;
+  int sommet = 0;
   graphe->nbSommets = nbS;
+  graphe->idxSommets = malloc(sizeof(int) * nbS);
   graphe->matrice = (int **)malloc(sizeof(int *) * nbS);
   graphe->coloration = (int *)malloc(sizeof(int) * nbS);
   graphe->degres = (int *)malloc(sizeof(int) * nbS);
@@ -135,6 +185,7 @@ int init_graphe(T_Graphe *graphe, int nbS) {
     graphe->matrice[ligne] = (int *)malloc(sizeof(int) * nbS);
     graphe->coloration[ligne] = INCOLORE;
     graphe->degres[ligne] = 0;
+    graphe->idxSommets[ligne] = sommet++;
     for (int colonne = 0; colonne < nbS; colonne++) {
       graphe->matrice[ligne][colonne] = 0;
     }
