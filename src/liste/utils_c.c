@@ -1,6 +1,7 @@
 #include "utils_h.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 void init_liste(T_Liste *liste, int nbElement) {
   liste->tab = malloc(sizeof(int) * nbElement);
@@ -27,18 +28,20 @@ int fusion_liste(T_Liste *dans, T_Liste *quoi) {
   return newSize;
 }
 
-int retire_de_la_liste(int idx, T_Liste *liste) {
-  int newSize = liste->nbElement - 1;
-  int *newTab = malloc(sizeof(int) * (newSize));
+int get_Element(T_Liste liste, int idx) { return liste.tab[idx]; }
+
+int retire_de_la_liste(int sommet, T_Liste *liste) {
+  int oldTab[liste->nbElement];
+  memcpy(oldTab, liste->tab, sizeof(int) * liste->nbElement);
+  liste->tab = realloc(liste->tab, sizeof(int) * liste->nbElement - 1);
   int j = 0;
-  for (int i = 0; i <= newSize; i++) {
-    if (i != idx) {
-      newTab[j++] = liste->tab[i];
+  for (int i = 0; i <= liste->nbElement; i++) {
+    if (oldTab[i] != sommet) {
+      liste->tab[j++] = oldTab[i];
     }
   }
-  liste->nbElement = newSize;
-  liste->tab = newTab;
-  return newSize;
+  liste->nbElement = liste->nbElement - 1;
+  return liste->nbElement;
 }
 
 int est_inclus(int x, T_Liste liste) {

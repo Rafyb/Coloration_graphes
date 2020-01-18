@@ -9,7 +9,7 @@ T_Liste *liste_sommets_adjacent(int sommet, T_Graphe graphe) {
   T_Liste *sAdjacent = malloc(sizeof(T_Liste));
   init_liste(sAdjacent, graphe.degres[sommet]);
   int idx = 0;
-  for (int ligne = 0; ligne < sAdjacent->nbElement; ligne++) {
+  for (int ligne = 0; ligne < graphe.nbSommets; ligne++) {
     if (graphe.matrice[ligne][sommet] == 1) {
       sAdjacent->tab[idx++] = ligne;
     }
@@ -42,40 +42,35 @@ int welsh_powell(T_Graphe *graphe) {
   T_Liste *sommets =
       liste_sommets_degres_decroissant(graphe->degres, graphe->nbSommets);
   // La couleur
-  // int color = 0;
+  int color = 0;
 
-  for (int i = 0; i < graphe->nbSommets; i++) {
-    printf("%d ", graphe->degres[sommets->tab[i]]);
-  }
-  /*
   // Tant qu'il existe des elements dans la liste des sommets
-  while (nbElement > 0) {
-    int sommet = sommets[0];
-    printf("Le sommet : %d\n", sommet);
-    nbElement = retire_de_la_liste(sommet, sommets, nbElement);
+  while (sommets->nbElement > 0) {
+    int sommet = get_Element(*sommets, 0);
+
     if (graphe->coloration[sommet] == INCOLORE) {
       // On colore le sommet courant et on le retire de la liste
       graphe->coloration[sommet] = color;
-      printf("Sa couleur : %d\n", graphe->coloration[sommet]);
 
       // On parcourt les sommets et on colore les sommets non adjacent
-      int *sAdjacent = get_sommets_adjacent(sommet, *graphe);
-      int nbAdjacent = graphe->degres[sommet];
+      T_Liste *sAdjacent = liste_sommets_adjacent(sommet, *graphe);
+
       // pour tout sommet s dans la liste des sommets
-      for (int s = 0; s < nbElement; s++) {
+      for (int i = 0; i < sommets->nbElement; i++) {
+        int s = get_Element(*sommets, i);
         // si s n'est pas inclus dans Tsommet
-        if (!est_inclus(sommets[s], sAdjacent, nbAdjacent) &&
-            graphe->coloration[sommet] == INCOLORE) {
+        if ((!est_inclus(s, *sAdjacent)) && graphe->coloration[s] == INCOLORE) {
           graphe->coloration[s] = color;
           // Tsommet = Tsommet U Ts
-          printf("De la même couleur : %d\n", s);
-          nbAdjacent =
-              fusion_tab(sAdjacent, nbAdjacent,
-                         get_sommets_adjacent(s, *graphe), graphe->degres[s]);
+          T_Liste *adjacents = liste_sommets_adjacent(s, *graphe);
+          fusion_liste(sAdjacent, adjacents);
+          free(adjacents);
         }
       }
       color++;
     }
-  }*/
+    // On retire le sommet coloré
+    retire_de_la_liste(sommet, sommets);
+  }
   return 0;
 }

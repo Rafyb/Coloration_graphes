@@ -34,17 +34,12 @@ int main(int argc, char **argv) {
   mettre_a_jour_degres(&graphe);
   afficher_matrice(graphe);
 
-  printf("\n");
-  for (int i = 0; i < graphe.nbSommets; i++) {
-    printf("%d ", graphe.degres[i]);
-  }
-  printf("\n");
-
   welsh_powell(&graphe);
-  /*
+
+  printf("Les colorations : \n");
   for (int i = 0; i < graphe.nbSommets; i++) {
-    printf("%d ", graphe.coloration[i]);
+    printf("Sommet %d -> couleur %d\n", i + 1, graphe.coloration[i]);
   }
-  printf("\n");*/
+  printf("\n");
   return 0;
 }
