@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #ifndef GRAPHE_H
 #define GRAPHE_H
 
@@ -9,6 +11,8 @@ typedef struct S_Graphe {
 } T_Graphe;
 
 #define INCOLORE -1
+
+FILE *fichier;
 
 int get_degres(T_Graphe *graphe, int sommet);
 

@@ -41,5 +41,7 @@ int main(int argc, char **argv) {
     printf("Sommet %d -> couleur %d\n", i + 1, graphe.coloration[i]);
   }
   printf("\n");
+  if (coloration_est_valide(graphe))
+    printf("Coloration valide !\n");
   return 0;
 }

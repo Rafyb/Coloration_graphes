@@ -4,8 +4,6 @@
 #include <string.h>
 #include <time.h>
 
-FILE *fichier;
-
 int get_degres(T_Graphe *graphe, int sommet) {
   int degres = 0;
   for (int ligne = 0; ligne < graphe->nbSommets; ligne++) {
@@ -60,7 +58,6 @@ int ouvrir(char *filename, char *mode) {
 }
 
 int lecture_ligne_colonne(char *filename) {
-  // Fichier
   if (!ouvrir(filename, "r")) {
     perror("Impossible d'ouvrir le fichier");
     return -1;

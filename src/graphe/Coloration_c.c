@@ -5,6 +5,54 @@
 #include <stdlib.h>
 #include <string.h>
 
+int coloration_est_valide(T_Graphe graphe) {
+  for (int sommet = 0; sommet < graphe.nbSommets; sommet++) {
+    T_Liste *sAdjacent = liste_sommets_adjacent(sommet, graphe);
+    for (int adjacent = 0; adjacent < sAdjacent->nbElement; adjacent++) {
+      if ((graphe.coloration[sommet] ==
+           graphe.coloration[sAdjacent->tab[adjacent]]) &&
+          (sommet != sAdjacent->tab[adjacent]))
+        return 0;
+    }
+  }
+  return 1;
+}
+
+int ecriture_fichier_coloration(char *filename, T_Graphe graphe) {
+  if (!ouvrir(filename, "w+")) {
+    perror("Impossible d'ouvrir le fichier");
+    return -1;
+  }
+
+  for (int colonne = 0; colonne < graphe.nbSommets; colonne++) {
+    fprintf(fichier, "%d", graphe.coloration[colonne]);
+    if (colonne != graphe.nbSommets - 1) {
+      fputc(',', fichier);
+    }
+  }
+
+  fclose(fichier);
+  return 0;
+}
+
+int lecture_fichier_coloration(char *filename, T_Graphe *graphe) {
+  if (!ouvrir(filename, "r")) {
+    perror("Impossible d'ouvrir le fichier");
+    return -1;
+  }
+  int nb;
+  char virgule;
+
+  for (int colonne = 0; colonne < graphe->nbSommets; colonne++) {
+    fscanf(fichier, "%d", &nb);
+    fscanf(fichier, "%c", &virgule); // pour passer le ","
+    graphe->coloration[colonne] = nb;
+  }
+
+  fclose(fichier);
+  return 0;
+}
+
 T_Liste *liste_sommets_adjacent(int sommet, T_Graphe graphe) {
   T_Liste *sAdjacent = malloc(sizeof(T_Liste));
   init_liste(sAdjacent, graphe.degres[sommet]);
