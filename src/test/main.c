@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
     printf("Voulez-vous sauvegarder le graphe (1:Oui / 0:Non) : ");
     scanf("%d", &isSaved);
     if (isSaved == 1) {
-      ecriture_fichier_graphe("graphe_write.txt", graphe);
+      ecriture_fichier_graphe("test/graphe_write.txt", graphe);
     }
   }
   mettre_a_jour_degres(&graphe);
