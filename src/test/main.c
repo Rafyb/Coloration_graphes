@@ -1,4 +1,6 @@
-#include "Graphe_h.h"
+#include "../graphe/Coloration_h.h"
+#include "../graphe/Graphe_h.h"
+#include "../liste/utils_h.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -37,11 +39,12 @@ int main(int argc, char **argv) {
     printf("%d ", graphe.degres[i]);
   }
   printf("\n");
-  int *idx_sommets_trier =
-      sommets_par_degres_decroissant(graphe.degres, graphe.nbSommets);
 
+  welsh_powell(&graphe);
+  /*
   for (int i = 0; i < graphe.nbSommets; i++) {
-    printf("%d ", graphe.degres[idx_sommets_trier[i]]);
+    printf("%d ", graphe.coloration[i]);
   }
+  printf("\n");*/
   return 0;
 }

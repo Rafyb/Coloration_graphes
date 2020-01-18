@@ -1,14 +1,14 @@
-#define INCOLORE -1
+#ifndef GRAPHE_H
+#define GRAPHE_H
 
 typedef struct S_Graphe {
   int **matrice;   // La matrice d'adjacences
   int nbSommets;   // Le nombre de sommet du graphe
-  int *idxSommets; // Indices des sommets
   int *degres;     // Les degres de chaque sommet
   int *coloration; // Les couleurs des sommets
 } T_Graphe;
 
-int *sommets_par_degres_decroissant(int *tab, int nbSommets);
+#define INCOLORE -1
 
 int get_degres(T_Graphe *graphe, int sommet);
 
@@ -31,3 +31,5 @@ int init_graphe(T_Graphe *graphe, int nbS);
 int generate_random_graphe(T_Graphe *graphe);
 
 void afficher_matrice(T_Graphe graphe);
+
+#endif

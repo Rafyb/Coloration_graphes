@@ -6,41 +6,14 @@
 
 FILE *fichier;
 
-/*int welsh_powell(T_Graphe *graphe) {
-  int color = 0;
-  return 0;
-}
-*/
-
-int *sommets_par_degres_decroissant(int *tab, int nbSommets) {
-  int *sommet = malloc(sizeof(int) * nbSommets);
-  int degres[nbSommets];
-  memcpy(degres, tab, sizeof(int) * nbSommets);
-
-  for (int idx = 0; idx < nbSommets; idx++) {
-    int grand = idx;
-    for (int test = 0; test < nbSommets; test++) {
-      if (degres[grand] < degres[test]) {
-        grand = test;
-      }
-    }
-
-    sommet[idx] = grand;
-    printf("le plus grand est : %d\n", degres[grand]);
-    printf("son index est %d\n", sommet[idx]);
-    degres[grand] = -1;
-  }
-  return sommet;
-}
-
 int get_degres(T_Graphe *graphe, int sommet) {
   int degres = 0;
   for (int ligne = 0; ligne < graphe->nbSommets; ligne++) {
-    if (ligne == sommet) {
-      degres += 2 * graphe->matrice[ligne][sommet];
-    } else {
-      degres += graphe->matrice[ligne][sommet];
-    }
+    // if (ligne == sommet) {
+    //  degres += 2 * graphe->matrice[ligne][sommet];
+    //} else {
+    degres += graphe->matrice[ligne][sommet];
+    //}
   }
   graphe->degres[sommet] = degres;
   return degres;
@@ -79,10 +52,6 @@ int supprimer_arc(T_Graphe *graphe, int origine, int extremite) {
   return 0;
 }
 
-/**
- * Done
- *
- */
 int ouvrir(char *filename, char *mode) {
   fichier = fopen(filename, mode);
   if (fichier == NULL)
@@ -90,10 +59,6 @@ int ouvrir(char *filename, char *mode) {
   return 1;
 }
 
-/**
- * Done
- *
- */
 int lecture_ligne_colonne(char *filename) {
   // Fichier
   if (!ouvrir(filename, "r")) {
@@ -124,10 +89,6 @@ int lecture_ligne_colonne(char *filename) {
   return nbL;
 }
 
-/**
- * Done
- *
- */
 int ecriture_fichier_graphe(char *filename, T_Graphe graphe) {
   if (!ouvrir(filename, "w+")) {
     perror("Impossible d'ouvrir le fichier");
@@ -143,10 +104,6 @@ int ecriture_fichier_graphe(char *filename, T_Graphe graphe) {
   return 0;
 }
 
-/**
- * Done
- *
- */
 int lecture_fichier_graphe(char *filename, T_Graphe *graphe) {
   if (!ouvrir(filename, "r")) {
     perror("Impossible d'ouvrir le fichier");
@@ -168,16 +125,10 @@ int lecture_fichier_graphe(char *filename, T_Graphe *graphe) {
   return 0;
 }
 
-/**
- * Done
- *
- */
 int init_graphe(T_Graphe *graphe, int nbS) {
   if (nbS < 1)
     return -1;
-  int sommet = 0;
   graphe->nbSommets = nbS;
-  graphe->idxSommets = malloc(sizeof(int) * nbS);
   graphe->matrice = (int **)malloc(sizeof(int *) * nbS);
   graphe->coloration = (int *)malloc(sizeof(int) * nbS);
   graphe->degres = (int *)malloc(sizeof(int) * nbS);
@@ -185,7 +136,6 @@ int init_graphe(T_Graphe *graphe, int nbS) {
     graphe->matrice[ligne] = (int *)malloc(sizeof(int) * nbS);
     graphe->coloration[ligne] = INCOLORE;
     graphe->degres[ligne] = 0;
-    graphe->idxSommets[ligne] = sommet++;
     for (int colonne = 0; colonne < nbS; colonne++) {
       graphe->matrice[ligne][colonne] = 0;
     }
@@ -194,10 +144,6 @@ int init_graphe(T_Graphe *graphe, int nbS) {
   return 0;
 }
 
-/**
- * Done
- *
- */
 int generate_random_graphe(T_Graphe *graphe) {
   for (int ligne = 0; ligne < graphe->nbSommets; ligne++) {
     for (int colonne = 0; colonne < graphe->nbSommets; colonne++) {
@@ -211,10 +157,6 @@ int generate_random_graphe(T_Graphe *graphe) {
   return 0;
 }
 
-/**
- * Done
- *
- */
 void afficher_matrice(T_Graphe graphe) {
   for (int ligne = 0; ligne < graphe.nbSommets; ligne++) {
     for (int colonne = 0; colonne < graphe.nbSommets; colonne++) {
