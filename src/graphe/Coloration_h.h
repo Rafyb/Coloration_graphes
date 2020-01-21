@@ -16,4 +16,6 @@ T_Liste *liste_sommets_degres_decroissant(int *tab, int nbSommets);
 
 int welsh_powell(T_Graphe *graphe);
 
+void selectionSort(T_Liste* liste);
+
 #endif

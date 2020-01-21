@@ -43,5 +43,25 @@ int main(int argc, char **argv) {
   printf("\n");
   if (coloration_est_valide(graphe))
     printf("Coloration valide !\n");
+  ecriture_fichier_coloration("test/coloration_write.txt", graphe);
+  lecture_fichier_coloration("test/coloration_write.txt", &graphe);
+  if (coloration_est_valide(graphe))
+    printf("Coloration valide !\n");
+
+  T_Liste cmaListe;
+  init_liste(&cmaListe, 5);
+  cmaListe.tab[0] = 8;
+  cmaListe.tab[1] = 2;
+  cmaListe.tab[2] = 1;
+  cmaListe.tab[3] = 3;
+  cmaListe.tab[4] = 11;
+  printf("Liste créée\n");
+  for (int i = 0; i < cmaListe.nbElement; i++)  
+    { printf("[%d] ", cmaListe.tab[i]); }
+  printf("\nJe lance le trie\n");
+  selectionSort(&cmaListe);
+  for (int i = 0; i < cmaListe.nbElement; i++)  
+    { printf("[%d] ", cmaListe.tab[i]); }
+  printf("\n");
   return 0;
 }
