@@ -13,14 +13,8 @@ void init_liste(T_Liste *liste, int nbElement) {
 
 int fusion_liste(T_Liste *dans, T_Liste quoi) {
   int newSize = dans->nbElement + quoi.nbElement;
-  int i = 0;
-  int j = 0;
-  for (int idx = 0; idx < newSize; idx++) {
-    if (i < dans->nbElement) {
-      ajouter_Element(dans, dans->tab[i++]);
-    } else {
-      ajouter_Element(dans, quoi.tab[j++]);
-    }
+  for (int idx = 0; idx < quoi.nbElement; idx++) {
+    ajouter_Element(dans, quoi.tab[idx]);
   }
   return newSize;
 }

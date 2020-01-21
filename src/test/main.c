@@ -51,23 +51,31 @@ int main(int argc, char **argv) {
   if (coloration_est_valide(graphe))
     printf("Coloration valide !\n");
 
-  T_Liste cmaListe;
-  init_liste(&cmaListe, 0);
-  ajouter_Element(&cmaListe, 8);
-  ajouter_Element(&cmaListe, 1);
-  ajouter_Element(&cmaListe, 3);
-  ajouter_Element(&cmaListe, 7);
-  ajouter_Element(&cmaListe, 11);
+  T_Liste maListe;
+  init_liste(&maListe, 5);
+  maListe.tab[0] = 1;
+  maListe.tab[1] = 2;
+  maListe.tab[2] = 3;
+  maListe.tab[3] = 4;
+  maListe.tab[4] = 5;
 
-  printf("Liste créée\n");
-  for (int i = 0; i < cmaListe.nbElement; i++) {
-    printf("[%d] ", cmaListe.tab[i]);
-  }
-  printf("\nJe lance le trie\n");
-  selectionSort(&cmaListe);
-  for (int i = 0; i < cmaListe.nbElement; i++) {
-    printf("[%d] ", cmaListe.tab[i]);
-  }
+  retire_de_la_liste(2, &maListe);
+  for (int i = 0; i < maListe.nbElement; i++)
+    printf("%d ", maListe.tab[i]);
   printf("\n");
-  return 0;
+  T_Liste maListe2;
+  init_liste(&maListe2, 5);
+  maListe2.tab[0] = 6;
+  maListe2.tab[1] = 7;
+  maListe2.tab[2] = 8;
+  maListe2.tab[3] = 9;
+  maListe2.tab[4] = 10;
+
+  fusion_liste(&maListe, maListe2);
+  for (int i = 0; i < maListe.nbElement; i++)
+    printf("%d ", maListe.tab[i]);
+  printf("\n");
+
+  if (est_inclus(6, maListe))
+    printf("6 est inclus dans la liste\n");
 }
