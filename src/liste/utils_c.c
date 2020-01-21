@@ -11,24 +11,38 @@ void init_liste(T_Liste *liste, int nbElement) {
   }
 }
 
-int fusion_liste(T_Liste *dans, T_Liste *quoi) {
-  int newSize = dans->nbElement + quoi->nbElement;
-  int *newTab = malloc(sizeof(int) * (newSize));
+int fusion_liste(T_Liste *dans, T_Liste quoi) {
+  int newSize = dans->nbElement + quoi.nbElement;
   int i = 0;
   int j = 0;
   for (int idx = 0; idx < newSize; idx++) {
     if (i < dans->nbElement) {
-      newTab[idx] = dans->tab[i++];
+      ajouter_Element(dans, dans->tab[i++]);
     } else {
-      newTab[idx] = quoi->tab[j++];
+      ajouter_Element(dans, quoi.tab[j++]);
     }
   }
-  dans->nbElement = newSize;
-  dans->tab = newTab;
   return newSize;
 }
 
 int get_Element(T_Liste liste, int idx) { return liste.tab[idx]; }
+
+int ajouter_Element(T_Liste *liste, int element) {
+  int newSize = liste->nbElement + 1;
+  int *newTab = malloc(sizeof(int) * (newSize));
+  int i = 0;
+  for (int idx = 0; idx < newSize; idx++) {
+    if (i < liste->nbElement) {
+      newTab[idx] = liste->tab[i++];
+    } else {
+      newTab[idx] = element;
+    }
+  }
+  liste->nbElement = newSize;
+  free(liste->tab);
+  liste->tab = newTab;
+  return newSize;
+}
 
 int retire_de_la_liste(int sommet, T_Liste *liste) {
   int oldTab[liste->nbElement];
@@ -75,7 +89,7 @@ int main(void){
   maListe2.tab[3] = 9;
   maListe2.tab[4] = 10;
 
-  fusion_liste(&maListe, &maListe2);
+  fusion_liste(&maListe, maListe2);
   for (int i = 0; i < maListe.nbElement; i++)
     printf("%d ", maListe.tab[i]);
   printf("\n");

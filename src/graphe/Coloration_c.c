@@ -111,7 +111,7 @@ int welsh_powell(T_Graphe *graphe) {
           graphe->coloration[s] = color;
           // Tsommet = Tsommet U Ts
           T_Liste *adjacents = liste_sommets_adjacent(s, *graphe);
-          fusion_liste(sAdjacent, adjacents);
+          fusion_liste(sAdjacent, *adjacents);
           free(adjacents);
         }
       }
@@ -123,20 +123,18 @@ int welsh_powell(T_Graphe *graphe) {
   return 0;
 }
 
-void selectionSort(T_Liste* liste)  
-{  
-    int min_idx;  
-  
-    for (int i = 0; i < liste->nbElement; i++)  
-    {  
-        min_idx = i;  
-        for (int j = i+1; j < liste->nbElement; j++) { 
-        	if (liste->tab[j] < liste->tab[min_idx]) {
-            		min_idx = j;  
-   		}
-	}
-	int temp = liste->tab[min_idx];  
-    	liste->tab[min_idx] = liste->tab[i];  
-   	liste->tab[i] = temp; 
-    }  
+void selectionSort(T_Liste *liste) {
+  int min_idx;
+
+  for (int i = 0; i < liste->nbElement; i++) {
+    min_idx = i;
+    for (int j = i + 1; j < liste->nbElement; j++) {
+      if (liste->tab[j] < liste->tab[min_idx]) {
+        min_idx = j;
+      }
+    }
+    int temp = liste->tab[min_idx];
+    liste->tab[min_idx] = liste->tab[i];
+    liste->tab[i] = temp;
+  }
 }

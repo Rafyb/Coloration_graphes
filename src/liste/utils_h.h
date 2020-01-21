@@ -6,11 +6,13 @@ typedef struct S_Liste {
   int nbElement;
 } T_Liste;
 
-int get_Element(T_Liste liste, int idx);
-
 void init_liste(T_Liste *liste, int nbElement);
 
-int fusion_liste(T_Liste *dans, T_Liste *quoi);
+int fusion_liste(T_Liste *dans, T_Liste quoi);
+
+int get_Element(T_Liste liste, int idx);
+
+int ajouter_Element(T_Liste *liste, int element);
 
 int retire_de_la_liste(int idx, T_Liste *liste);
 
