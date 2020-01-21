@@ -18,4 +18,6 @@ int welsh_powell(T_Graphe *graphe);
 
 void selectionSort(T_Liste* liste);
 
+int glouton(T_Graphe *graphe);
+
 #endif

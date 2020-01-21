@@ -9,6 +9,7 @@ int main(int argc, char **argv) {
   srand(time(NULL));
   int nbSommets = 0;
   int isSaved = 0;
+  int choix;
   T_Graphe graphe;
 
   // Lecture fichier
@@ -34,9 +35,22 @@ int main(int argc, char **argv) {
   mettre_a_jour_degres(&graphe);
   afficher_matrice(graphe);
 
-  welsh_powell(&graphe);
+  printf("\nQuel algorithme souhaitez-vous utiliser :\n");
+  printf("[1] - Welsh Powell\n");
+  printf("[2] - Glouton\n");
+  scanf("%d", &choix);
+  if(choix==1){
+    welsh_powell(&graphe);
+  }
+  else if(choix==2){
+    glouton(&graphe);
+  }
+  else {
+    printf("ERREUR : Choix invalide\n");
+    exit(1);
+  }
 
-  printf("Les colorations : \n");
+  printf("\nLes colorations : \n");
   for (int i = 0; i < graphe.nbSommets; i++) {
     printf("Sommet %d -> couleur %d\n", i + 1, graphe.coloration[i]);
   }
@@ -48,23 +62,5 @@ int main(int argc, char **argv) {
   if (coloration_est_valide(graphe))
     printf("Coloration valide !\n");
 
-  T_Liste cmaListe;
-  init_liste(&cmaListe, 0);
-  ajouter_Element(&cmaListe, 8);
-  ajouter_Element(&cmaListe, 1);
-  ajouter_Element(&cmaListe, 3);
-  ajouter_Element(&cmaListe, 7);
-  ajouter_Element(&cmaListe, 11);
-
-  printf("Liste créée\n");
-  for (int i = 0; i < cmaListe.nbElement; i++) {
-    printf("[%d] ", cmaListe.tab[i]);
-  }
-  printf("\nJe lance le trie\n");
-  selectionSort(&cmaListe);
-  for (int i = 0; i < cmaListe.nbElement; i++) {
-    printf("[%d] ", cmaListe.tab[i]);
-  }
-  printf("\n");
   return 0;
 }
