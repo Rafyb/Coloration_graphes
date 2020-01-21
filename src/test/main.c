@@ -9,7 +9,6 @@ int main(int argc, char **argv) {
   srand(time(NULL));
   int nbSommets = 0;
   int isSaved = 0;
-  int choix;
   T_Graphe graphe;
 
   // Lecture fichier
@@ -35,69 +34,38 @@ int main(int argc, char **argv) {
   mettre_a_jour_degres(&graphe);
   afficher_matrice(graphe);
 
-<<<<<<< HEAD
-  if (est_non_oriente(graphe))
-    printf("Le graphe est bien non orienté\n");
-
   welsh_powell(&graphe);
-=======
-  printf("\nQuel algorithme souhaitez-vous utiliser :\n");
-  printf("[1] - Welsh Powell\n");
-  printf("[2] - Glouton\n");
-  scanf("%d", &choix);
-  if(choix==1){
-    welsh_powell(&graphe);
-  }
-  else if(choix==2){
-    glouton(&graphe);
-  }
-  else {
-    printf("ERREUR : Choix invalide\n");
-    exit(1);
-  }
->>>>>>> 9b47dc913abb256f764ceb349b2f04488b6088b0
 
-  printf("\nLes colorations : \n");
+  printf("\nLes colorations par Welsh Powell : \n");
   for (int i = 0; i < graphe.nbSommets; i++) {
     printf("Sommet %d -> couleur %d\n", i + 1, graphe.coloration[i]);
   }
   printf("\n");
+
   if (coloration_est_valide(graphe))
     printf("Coloration valide !\n");
+
+  supprimer_coloration(&graphe);
+
+  glouton(&graphe);
+
+  printf("\nLes colorations par Glouton : \n");
+  for (int i = 0; i < graphe.nbSommets; i++) {
+    printf("Sommet %d -> couleur %d\n", i + 1, graphe.coloration[i]);
+  }
+  printf("\n");
+
+  if (coloration_est_valide(graphe))
+    printf("Coloration aussi valide !\n");
+
+  printf("Ecriture de la coloration dans le fichier puis relecture\n");
   ecriture_fichier_coloration("test/coloration_write.txt", graphe);
+
   lecture_fichier_coloration("test/coloration_write.txt", &graphe);
+
   if (coloration_est_valide(graphe))
-    printf("Coloration valide !\n");
+    printf("Coloration toujours valide !\n");
 
-<<<<<<< HEAD
-  T_Liste maListe;
-  init_liste(&maListe, 5);
-  maListe.tab[0] = 1;
-  maListe.tab[1] = 2;
-  maListe.tab[2] = 3;
-  maListe.tab[3] = 4;
-  maListe.tab[4] = 5;
-
-  retire_de_la_liste(2, &maListe);
-  for (int i = 0; i < maListe.nbElement; i++)
-    printf("%d ", maListe.tab[i]);
-  printf("\n");
-  T_Liste maListe2;
-  init_liste(&maListe2, 5);
-  maListe2.tab[0] = 6;
-  maListe2.tab[1] = 7;
-  maListe2.tab[2] = 8;
-  maListe2.tab[3] = 9;
-  maListe2.tab[4] = 10;
-
-  fusion_liste(&maListe, maListe2);
-  for (int i = 0; i < maListe.nbElement; i++)
-    printf("%d ", maListe.tab[i]);
-  printf("\n");
-
-  if (est_inclus(6, maListe))
-    printf("6 est inclus dans la liste\n");
-=======
+  detruire_graphe(&graphe);
   return 0;
->>>>>>> 9b47dc913abb256f764ceb349b2f04488b6088b0
 }

@@ -151,6 +151,12 @@ int init_graphe(T_Graphe *graphe, int nbS) {
   return 0;
 }
 
+void detruire_graphe(T_Graphe *graphe) {
+  free(graphe->matrice);
+  free(graphe->coloration);
+  free(graphe->degres);
+}
+
 int generate_random_graphe(T_Graphe *graphe) {
   for (int ligne = 0; ligne < graphe->nbSommets; ligne++) {
     for (int colonne = 0; colonne < graphe->nbSommets; colonne++) {

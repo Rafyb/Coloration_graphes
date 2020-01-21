@@ -4,6 +4,8 @@
 #ifndef COLORATION_H
 #define COLORATION_H
 
+void supprimer_coloration(T_Graphe *graphe);
+
 int coloration_est_valide(T_Graphe graphe);
 
 int ecriture_fichier_coloration(char *filename, T_Graphe graphe);
@@ -16,7 +18,7 @@ T_Liste *liste_sommets_degres_decroissant(int *tab, int nbSommets);
 
 int welsh_powell(T_Graphe *graphe);
 
-void selectionSort(T_Liste* liste);
+void selectionSort(T_Liste *liste);
 
 int glouton(T_Graphe *graphe);
 

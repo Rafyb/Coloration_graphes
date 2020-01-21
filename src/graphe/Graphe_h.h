@@ -34,6 +34,8 @@ int est_non_oriente(T_Graphe graphe);
 
 int init_graphe(T_Graphe *graphe, int nbS);
 
+void detruire_graphe(T_Graphe *graphe);
+
 int generate_random_graphe(T_Graphe *graphe);
 
 void afficher_matrice(T_Graphe graphe);
