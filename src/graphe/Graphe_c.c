@@ -122,6 +122,16 @@ int lecture_fichier_graphe(char *filename, T_Graphe *graphe) {
   return 0;
 }
 
+int est_non_oriente(T_Graphe graphe) {
+  for (int colonne = 0; colonne < graphe.nbSommets; colonne++) {
+    for (int ligne = 0; ligne < graphe.nbSommets; ligne++) {
+      if (graphe.matrice[colonne][ligne] != graphe.matrice[ligne][colonne])
+        return 0;
+    }
+  }
+  return 1;
+}
+
 int init_graphe(T_Graphe *graphe, int nbS) {
   if (nbS < 1)
     return -1;

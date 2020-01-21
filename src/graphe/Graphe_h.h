@@ -30,6 +30,8 @@ int ecriture_fichier_graphe(char *filename, T_Graphe graphe);
 
 int lecture_fichier_graphe(char *filename, T_Graphe *graphe);
 
+int est_non_oriente(T_Graphe graphe);
+
 int init_graphe(T_Graphe *graphe, int nbS);
 
 int generate_random_graphe(T_Graphe *graphe);

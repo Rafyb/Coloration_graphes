@@ -34,6 +34,9 @@ int main(int argc, char **argv) {
   mettre_a_jour_degres(&graphe);
   afficher_matrice(graphe);
 
+  if (est_non_oriente(graphe))
+    printf("Le graphe est bien non orienté\n");
+
   welsh_powell(&graphe);
 
   printf("Les colorations : \n");
