@@ -9,6 +9,7 @@ int main(int argc, char **argv) {
   srand(time(NULL));
   int nbSommets = 0;
   int isSaved = 0;
+  int choix;
   T_Graphe graphe;
 
   // Lecture fichier
@@ -34,12 +35,29 @@ int main(int argc, char **argv) {
   mettre_a_jour_degres(&graphe);
   afficher_matrice(graphe);
 
+<<<<<<< HEAD
   if (est_non_oriente(graphe))
     printf("Le graphe est bien non orienté\n");
 
   welsh_powell(&graphe);
+=======
+  printf("\nQuel algorithme souhaitez-vous utiliser :\n");
+  printf("[1] - Welsh Powell\n");
+  printf("[2] - Glouton\n");
+  scanf("%d", &choix);
+  if(choix==1){
+    welsh_powell(&graphe);
+  }
+  else if(choix==2){
+    glouton(&graphe);
+  }
+  else {
+    printf("ERREUR : Choix invalide\n");
+    exit(1);
+  }
+>>>>>>> 9b47dc913abb256f764ceb349b2f04488b6088b0
 
-  printf("Les colorations : \n");
+  printf("\nLes colorations : \n");
   for (int i = 0; i < graphe.nbSommets; i++) {
     printf("Sommet %d -> couleur %d\n", i + 1, graphe.coloration[i]);
   }
@@ -51,6 +69,7 @@ int main(int argc, char **argv) {
   if (coloration_est_valide(graphe))
     printf("Coloration valide !\n");
 
+<<<<<<< HEAD
   T_Liste maListe;
   init_liste(&maListe, 5);
   maListe.tab[0] = 1;
@@ -78,4 +97,7 @@ int main(int argc, char **argv) {
 
   if (est_inclus(6, maListe))
     printf("6 est inclus dans la liste\n");
+=======
+  return 0;
+>>>>>>> 9b47dc913abb256f764ceb349b2f04488b6088b0
 }
