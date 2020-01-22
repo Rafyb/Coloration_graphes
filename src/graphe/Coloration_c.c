@@ -258,6 +258,14 @@ void supprimer_coloration(T_Graphe *graphe) {
   }
 }
 
+/**
+ * @brief Permet de retourner le nombre de couleurs d'une graphe
+ *
+ * @param graphe : T_Graphe contenant le graphe
+ *
+ * @return int : couleur_max + 1 (0)
+ *
+ **/
 int nombre_de_couleurs(T_Graphe graphe) {
   int couleur_max = INCOLORE;
 
@@ -272,6 +280,14 @@ int nombre_de_couleurs(T_Graphe graphe) {
   return couleur_max+1;
 }
 
+/**
+ * @brief Permet d'afficher les sommets et leurs adjacents
+ *
+ * @param graphe : T_Graphe contenant le graphe
+ *
+ * @return 0
+ *
+ **/
 int ecriture_sommets_adjacents(T_Graphe graphe) {
   printf("Adjacences : \n");
   for (int i=0; i < graphe.nbSommets; i++) {
@@ -286,6 +302,14 @@ int ecriture_sommets_adjacents(T_Graphe graphe) {
   return 0;
 }
 
+/**
+ * @brief Variante de l'Algorithme Glouton sur base d'une liste ordonnée de sommet/degrés
+ *
+ * @param graphe : T_Graphe* contenant l'adresse mémoire du graphe
+ *
+ * @return 0
+ *
+ **/
 int glouton_ordonne(T_Graphe *graphe) {
   int som = 0;
   // Tant qu'il existe des un sommet INCOLORE
