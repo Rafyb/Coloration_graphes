@@ -1,3 +1,12 @@
+/**
+ * @file      Coloration_c.c
+ * @author    Raphael Bauvin, Johann De Almeida
+ * @version   22012020
+ * @date      22 Janvier 2020
+ * @brief     Définit les fonctions qui se repporte à la coloration de graphe
+ *
+ */
+
 #include "../liste/utils_h.h"
 #include "Coloration_h.h"
 #include "Graphe_h.h"
@@ -5,11 +14,25 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * @brief Permet de supprimer une coloration existente d'une graphe
+ *
+ * @param graphe : T_Graphe*  l'adresse mémoire du graphe
+ *
+ **/
+void supprimer_coloration(T_Graphe *graphe) {
+  free(graphe->coloration);
+  graphe->coloration = (int *)malloc(sizeof(int) * graphe->nbSommets);
+  for (int idx = 0; idx < graphe->nbSommets; idx++) {
+    graphe->coloration[idx] = INCOLORE;
+  }
+}
 
 /**
- * @brief Controle si la coloration est valide en reparcourant les sommets adjacents
+ * @brief Controle si la coloration est valide en reparcourant les sommets
+ *adjacents
  *
- * @param graphe : T_Graphe contenant le graphe
+ * @param graphe : T_Graphe  le graphe
  *
  * @return bool (0/1) si valide
  *
@@ -30,8 +53,8 @@ int coloration_est_valide(T_Graphe graphe) {
 /**
  * @brief Ecrit la coloration des sommets dans un fichier donné en paramètre
  *
- * @param filename : Char* contenant le nom du fichier
- * @param graphe : T_Graphe contenant le graphe
+ * @param filename : Char*  le nom du fichier
+ * @param graphe : T_Graphe  le graphe
  *
  * @return  0 ou -1 si non valide
  *
@@ -56,8 +79,8 @@ int ecriture_fichier_coloration(char *filename, T_Graphe graphe) {
 /**
  * @brief Lis une coloration de sommets dans un fichier donné en paramètre
  *
- * @param filename : Char* contenant le nom du fichier
- * @param graphe : T_Graphe* contenant l'adresse mémoire du graphe
+ * @param filename : Char*  le nom du fichier
+ * @param graphe : T_Graphe*  l'adresse mémoire du graphe
  *
  * @return  0 ou -1 si non valide
  *
@@ -81,12 +104,13 @@ int lecture_fichier_coloration(char *filename, T_Graphe *graphe) {
 }
 
 /**
- * @brief Fonction permettant de connaitre les sommets adjacents à un sommet donné en paramètre
+ * @brief Fonction permettant de connaitre les sommets adjacents à un sommet
+ *donné en paramètre
  *
- * @param sommet : int contenant le sommet (son index dans le graphe)
- * @param graphe : T_Graphe contenant le graphe
+ * @param sommet : int  le sommet
+ * @param graphe : T_Graphe  le graphe
  *
- * @return sAdjacent : T_Liste* contenant la liste des sommets adjacents
+ * @return sAdjacent : T_Liste*  la liste des sommets adjacents
  *
  **/
 T_Liste *liste_sommets_adjacent(int sommet, T_Graphe graphe) {
@@ -102,12 +126,34 @@ T_Liste *liste_sommets_adjacent(int sommet, T_Graphe graphe) {
 }
 
 /**
- * @brief Permet de tier de manière décroissante les sommets par leur degré
+ * @brief Permet d'afficher les sommets et leurs adjacents
  *
- * @param tab : int* un tableau de sommets
- * @param nbSommets : int contenant le nombre de sommets
+ * @param graphe : T_Graphe  le graphe
  *
  * @return 0
+ *
+ **/
+int ecriture_sommets_adjacents(T_Graphe graphe) {
+  printf("Adjacences : \n");
+  for (int i = 0; i < graphe.nbSommets; i++) {
+    printf("Sommet %d (%d):", i, graphe.degres[i]);
+    T_Liste *adjacents = liste_sommets_adjacent(i, graphe);
+    for (int j = 0; j < adjacents->nbElement; j++) {
+      printf(" %d", get_Element(*adjacents, j));
+    }
+    printf("\n");
+  }
+  printf("\n");
+  return 0;
+}
+
+/**
+ * @brief Permet de récupérer la liste des sommets trié par degrés décroissants
+ *
+ * @param tab : int* un tableau de sommets
+ * @param nbSommets : int  le nombre de sommets
+ *
+ * @return  T_Liste* la liste des sommets trié
  *
  **/
 T_Liste *liste_sommets_degres_decroissant(int *tab, int nbSommets) {
@@ -131,11 +177,11 @@ T_Liste *liste_sommets_degres_decroissant(int *tab, int nbSommets) {
 }
 
 /**
- * @brief Fonction de l'algorithme de Welsh Powell
+ * @brief Fonction de l'algorithme de coloration de Welsh Powell
  *
- * @param graphe : T_Graphe contenant le graphe
+ * @param graphe : T_Graphe*  le graphe à colorer
  *
- * @return 0
+ * @return 0 si la coloration à fonctionner, -1 sinon
  *
  **/
 int welsh_powell(T_Graphe *graphe) {
@@ -177,33 +223,11 @@ int welsh_powell(T_Graphe *graphe) {
 }
 
 /**
- * @brief Fonction permettant de tier de manière croissante une liste d'entiers (select sort)
+ * @brief Fonction de l'algorithme de coloration Glouton
  *
- * @param liste : T_Liste* contenant l'adresse mémoire de la liste d'entiers
+ * @param graphe : T_Graphe*  l'adresse mémoire du graphe à colorer
  *
- **/
-void selectionSort(T_Liste *liste) {
-  int min_idx;
-
-  for (int i = 0; i < liste->nbElement; i++) {
-    min_idx = i;
-    for (int j = i + 1; j < liste->nbElement; j++) {
-      if (liste->tab[j] < liste->tab[min_idx]) {
-        min_idx = j;
-      }
-    }
-    int temp = liste->tab[min_idx];
-    liste->tab[min_idx] = liste->tab[i];
-    liste->tab[i] = temp;
-  }
-}
-
-/**
- * @brief Fonction de l'algorithme Glouton
- *
- * @param graphe : T_Graphe* contenant l'adresse mémoire du graphe
- *
- * @return 0
+ * @return 0 si la coloration à fonctionner, -1 sinon
  *
  **/
 int glouton(T_Graphe *graphe) {
@@ -227,7 +251,7 @@ int glouton(T_Graphe *graphe) {
       }
       // Je trie ma liste de façon croissante afin de réduire le temps de
       // traitement
-      selectionSort(&cAdjacentes);
+      // selectionSort(&cAdjacentes);
       // Tant que la couleur existe déjà sur les sommets adjacents, je
       // l'incrémente
       while (est_inclus(color, cAdjacentes)) {
@@ -245,75 +269,40 @@ int glouton(T_Graphe *graphe) {
 }
 
 /**
- * @brief Permet de supprimer une coloration existente d'une graphe
- *
- * @param graphe : T_Graphe* contenant l'adresse mémoire du graphe
- *
- **/
-void supprimer_coloration(T_Graphe *graphe) {
-  free(graphe->coloration);
-  graphe->coloration = (int *)malloc(sizeof(int) * graphe->nbSommets);
-  for (int idx = 0; idx < graphe->nbSommets; idx++) {
-    graphe->coloration[idx] = INCOLORE;
-  }
-}
-
-/**
  * @brief Permet de retourner le nombre de couleurs d'une graphe
  *
- * @param graphe : T_Graphe contenant le graphe
+ * @param graphe : T_Graphe  le graphe coloré
  *
- * @return int : couleur_max + 1 (0)
+ * @return int : nombre de couleur utiliser pour le graphe
  *
  **/
 int nombre_de_couleurs(T_Graphe graphe) {
   int couleur_max = INCOLORE;
 
-  for (int i=0; i < graphe.nbSommets; i++) {
-	if(graphe.coloration[i] > couleur_max){
-		couleur_max = graphe.coloration[i];
-	}
-	else{
-		continue;
-	}
+  for (int i = 0; i < graphe.nbSommets; i++) {
+    if (graphe.coloration[i] > couleur_max) {
+      couleur_max = graphe.coloration[i];
+    } else {
+      continue;
+    }
   }
-  return couleur_max+1;
+  return couleur_max + 1;
 }
 
 /**
- * @brief Permet d'afficher les sommets et leurs adjacents
+ * @brief Variante de l'Algorithme Glouton sur base d'une liste ordonnée de
+ *        sommet/degrés ( test de recherche et d'expérimentation )
  *
- * @param graphe : T_Graphe contenant le graphe
+ * @param graphe : T_Graphe*  l'adresse mémoire du graphe
  *
- * @return 0
- *
- **/
-int ecriture_sommets_adjacents(T_Graphe graphe) {
-  printf("Adjacences : \n");
-  for (int i=0; i < graphe.nbSommets; i++) {
-	printf("Sommet %d (%d):", i, graphe.degres[i]);
-	T_Liste *adjacents = liste_sommets_adjacent(i, graphe);
-	for(int j=0; j < adjacents->nbElement; j++){
-		printf(" %d", get_Element(*adjacents, j));
-	}
-	printf("\n");
-  }
-  printf("\n");
-  return 0;
-}
-
-/**
- * @brief Variante de l'Algorithme Glouton sur base d'une liste ordonnée de sommet/degrés
- *
- * @param graphe : T_Graphe* contenant l'adresse mémoire du graphe
- *
- * @return 0
+ * @return 0 si la coloration à fonctionner, -1 sinon
  *
  **/
 int glouton_ordonne(T_Graphe *graphe) {
   int som = 0;
   // Tant qu'il existe des un sommet INCOLORE
-  T_Liste *sommets = liste_sommets_degres_decroissant(graphe->degres, graphe->nbSommets);
+  T_Liste *sommets =
+      liste_sommets_degres_decroissant(graphe->degres, graphe->nbSommets);
   while (som < graphe->nbSommets) {
     // La couleur est initialisée à la plus petite valeur, soit 0
     int color = 0;

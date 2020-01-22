@@ -1,3 +1,12 @@
+/**
+ * @file      main.c
+ * @author    Raphael Bauvin, Johann De Almeida
+ * @version   22012020
+ * @date      22 Janvier 2020
+ * @brief     Programme à éxécuter qui test la librairie de graphe et de
+ *            coloration
+ *
+ */
 #include "../graphe/Coloration_h.h"
 #include "../graphe/Graphe_h.h"
 #include "../liste/utils_h.h"
