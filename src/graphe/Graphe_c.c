@@ -288,3 +288,4 @@ void afficher_matrice(T_Graphe graphe) {
     printf("\n");
   }
 }
+

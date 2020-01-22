@@ -41,6 +41,10 @@ int main(int argc, char **argv) {
     printf("Sommet %d -> couleur %d\n", i + 1, graphe.coloration[i]);
   }
   printf("\n");
+  printf("Nombre de couleurs : %d\n", nombre_de_couleurs(graphe));
+  printf("\n");
+  ecriture_sommets_adjacents(graphe);
+  ecriture_fichier_coloration("test/coloration_write_wp.txt", graphe);
 
   if (coloration_est_valide(graphe))
     printf("Coloration valide !\n");
@@ -54,14 +58,16 @@ int main(int argc, char **argv) {
     printf("Sommet %d -> couleur %d\n", i + 1, graphe.coloration[i]);
   }
   printf("\n");
+  printf("Nombre de couleurs : %d\n", nombre_de_couleurs(graphe));
+  printf("\n");
 
   if (coloration_est_valide(graphe))
     printf("Coloration aussi valide !\n");
 
   printf("Ecriture de la coloration dans le fichier puis relecture\n");
-  ecriture_fichier_coloration("test/coloration_write.txt", graphe);
+  ecriture_fichier_coloration("test/coloration_write_g.txt", graphe);
 
-  lecture_fichier_coloration("test/coloration_write.txt", &graphe);
+  lecture_fichier_coloration("test/coloration_write_g.txt", &graphe);
 
   if (coloration_est_valide(graphe))
     printf("Coloration toujours valide !\n");

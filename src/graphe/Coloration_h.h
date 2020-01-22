@@ -94,4 +94,8 @@ void selectionSort(T_Liste *liste);
  **/
 int glouton(T_Graphe *graphe);
 
+int nombre_de_couleurs(T_Graphe graphe);
+
+int ecriture_sommets_adjacents(T_Graphe graphe);
+
 #endif

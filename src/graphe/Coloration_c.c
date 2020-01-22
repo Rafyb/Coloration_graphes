@@ -257,3 +257,31 @@ void supprimer_coloration(T_Graphe *graphe) {
     graphe->coloration[idx] = INCOLORE;
   }
 }
+
+int nombre_de_couleurs(T_Graphe graphe) {
+  int couleur_max = INCOLORE;
+
+  for (int i=0; i < graphe.nbSommets; i++) {
+	if(graphe.coloration[i] > couleur_max){
+		couleur_max = graphe.coloration[i];
+	}
+	else{
+		continue;
+	}
+  }
+  return couleur_max+1;
+}
+
+int ecriture_sommets_adjacents(T_Graphe graphe) {
+  printf("Adjacences : \n\n");
+  for (int i=0; i < graphe.nbSommets; i++) {
+	printf("Sommet %d (%d):", i, graphe.degres[i]);
+	T_Liste *adjacents = liste_sommets_adjacent(i, graphe);
+	for(int j=0; j < adjacents->nbElement; j++){
+		printf(" %d", get_Element(*adjacents, j));
+	}
+	printf("\n");
+  }
+  printf("\n");
+  return 0;
+}
