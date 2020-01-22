@@ -33,6 +33,8 @@ int main(int argc, char **argv) {
   }
   mettre_a_jour_degres(&graphe);
   afficher_matrice(graphe);
+  printf("\n");
+  ecriture_sommets_adjacents(graphe);
 
   welsh_powell(&graphe);
 
@@ -43,7 +45,7 @@ int main(int argc, char **argv) {
   printf("\n");
   printf("Nombre de couleurs : %d\n", nombre_de_couleurs(graphe));
   printf("\n");
-  ecriture_sommets_adjacents(graphe);
+
   ecriture_fichier_coloration("test/coloration_write_wp.txt", graphe);
 
   if (coloration_est_valide(graphe))
@@ -64,10 +66,28 @@ int main(int argc, char **argv) {
   if (coloration_est_valide(graphe))
     printf("Coloration aussi valide !\n");
 
-  printf("Ecriture de la coloration dans le fichier puis relecture\n");
   ecriture_fichier_coloration("test/coloration_write_g.txt", graphe);
 
-  lecture_fichier_coloration("test/coloration_write_g.txt", &graphe);
+  supprimer_coloration(&graphe);
+
+  glouton_ordonne(&graphe);
+
+  printf("\nLes colorations par Glouton ordonné : \n");
+  for (int i = 0; i < graphe.nbSommets; i++) {
+    printf("Sommet %d -> couleur %d\n", i + 1, graphe.coloration[i]);
+  }
+  printf("\n");
+  printf("Nombre de couleurs : %d\n", nombre_de_couleurs(graphe));
+  printf("\n");
+
+  if (coloration_est_valide(graphe))
+    printf("Coloration aussi valide !\n");
+
+  printf("\n");
+  printf("Ecriture de la coloration dans le fichier puis relecture\n");
+  ecriture_fichier_coloration("test/coloration_write_go.txt", graphe);
+
+  lecture_fichier_coloration("test/coloration_write_go.txt", &graphe);
 
   if (coloration_est_valide(graphe))
     printf("Coloration toujours valide !\n");

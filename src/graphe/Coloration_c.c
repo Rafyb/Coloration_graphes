@@ -273,7 +273,7 @@ int nombre_de_couleurs(T_Graphe graphe) {
 }
 
 int ecriture_sommets_adjacents(T_Graphe graphe) {
-  printf("Adjacences : \n\n");
+  printf("Adjacences : \n");
   for (int i=0; i < graphe.nbSommets; i++) {
 	printf("Sommet %d (%d):", i, graphe.degres[i]);
 	T_Liste *adjacents = liste_sommets_adjacent(i, graphe);
@@ -283,5 +283,45 @@ int ecriture_sommets_adjacents(T_Graphe graphe) {
 	printf("\n");
   }
   printf("\n");
+  return 0;
+}
+
+int glouton_ordonne(T_Graphe *graphe) {
+  int som = 0;
+  // Tant qu'il existe des un sommet INCOLORE
+  T_Liste *sommets = liste_sommets_degres_decroissant(graphe->degres, graphe->nbSommets);
+  while (som < graphe->nbSommets) {
+    // La couleur est initialisée à la plus petite valeur, soit 0
+    int color = 0;
+    int sommet = get_Element(*sommets, som);
+    // Si le sommet est INCOLORE
+    if (graphe->coloration[sommet] == INCOLORE) {
+      // Je déclare et initalise ma liste de sommets adjacents
+      T_Liste *sAdjacent = liste_sommets_adjacent(sommet, *graphe);
+      // Je déclare la liste cAdjacentes (couleurs adjacentes)
+      T_Liste cAdjacentes;
+      init_liste(&cAdjacentes, 0);
+      // Pour chaque sommet adjacent je récupère la couleur
+      for (int i = 0; i < sAdjacent->nbElement; i++) {
+        // La couleur est ajoutée dans la liste cAdjacentes
+        ajouter_Element(&cAdjacentes,
+                        graphe->coloration[get_Element(*sAdjacent, i)]);
+      }
+      // Je trie ma liste de façon croissante afin de réduire le temps de
+      // traitement
+      selectionSort(&cAdjacentes);
+      // Tant que la couleur existe déjà sur les sommets adjacents, je
+      // l'incrémente
+      while (est_inclus(color, cAdjacentes)) {
+        color++;
+      }
+      // Je set la couleur à mon sommet INCOLORE
+      graphe->coloration[sommet] = color;
+      free(sAdjacent);
+      // free(&cAdjacentes);
+    }
+    // Je passe au sommet suivant
+    som++;
+  }
   return 0;
 }

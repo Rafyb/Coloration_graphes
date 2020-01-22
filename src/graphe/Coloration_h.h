@@ -98,4 +98,6 @@ int nombre_de_couleurs(T_Graphe graphe);
 
 int ecriture_sommets_adjacents(T_Graphe graphe);
 
+int glouton_ordonne(T_Graphe *graphe);
+
 #endif
